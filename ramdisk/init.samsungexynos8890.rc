@@ -42,6 +42,13 @@ on post-fs-data
 
     setprop vold.post_fs_data_done 1
 
+# RTC logging daemon
+    chmod 0770 /system/bin/rtc_log.sh
+    chown system system /system/bin/rtc_log.sh
+
+    chown bluetooth net_bt_stack /dev/ttySAC4
+chmod 0660 /dev/ttySAC4
+
 # Permissions for audio
     chown system radio /sys/class/audio/earjack/select_jack
     chown system radio /sys/class/audio/earjack/key_state
@@ -285,6 +292,14 @@ on boot
     chown system system /dev/ttyGS1
     chown system system /dev/ttyGS2
     chown system system /dev/ttyGS3
+
+# permissions for bluetooth.
+    chown bluetooth net_bt_stack ro.bt.bdaddr_path
+    chown radio net_bt_stack /efs/bluetooth/bt_addr
+    chmod 0640 /efs/bluetooth/bt_addr
+    chmod 0660 /sys/class/rfkill/rfkill0/state
+    chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/state
+	chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/type
 
 # DRK permission
     mkdir /efs/prov 0770 radio system
