@@ -2,15 +2,8 @@
 /dev/ion                  0666   system     system
 /dev/ump                  0666   system     graphics
 /dev/exynos-mem           0660   system     graphics
-/dev/video0               0660   system     camera
-/dev/video1               0660   system     camera
-/dev/video2               0660   system     camera
-/dev/video3               0660   system     camera
-/dev/video20              0660   system     system
 # media0 is used for GSC, DECON, etc
-/dev/media0               0660   system     camera
 # media1 is used for DECON Ext WB
-/dev/media1               0660   system     graphics
 # Various devices use the v4l-subdev interface
 # We declare all such nodes simultaneously here
 /dev/v4l-subdev0          0660   system     camera
@@ -38,87 +31,19 @@
 /dev/v4l-subdev21         0660   system     graphics
 /dev/v4l-subdev32         0660   system     graphics
 
-# gscalers
-/dev/video23              0660   media      graphics
-/dev/video26              0660   media      graphics
-/dev/video24              0660   media      graphics
-/dev/video27              0660   media      graphics
-/dev/video29              0660   media      graphics
-/dev/video30              0660   media      graphics
-# video31 is used for DECON Ext WB
-/dev/video31              0660   media      graphics
-
 # mscalers
-/dev/video50              0660   media      graphics
-/dev/video51              0660   media      graphics
 /dev/m2m1shot_scaler0     0660   media      graphics
 /dev/m2m1shot_scaler1     0660   media      graphics
-
-/dev/video55              0666   system     graphics
 /dev/fimg2d               0666   system     graphics
 /dev/i2c-2                0660   system     system
 /dev/HPD                  0660   system     system
 
-# mfc
-/dev/video6               0660   media      media
-/dev/video7               0660   media      media
-/dev/video8               0660   media      media
-/dev/video9               0660   media      media
-
 # camera
-/dev/video101             0660   media      media
-/dev/video102             0660   media      media
-/dev/video103             0660   media      media
-/dev/video104             0660   media      media
-/dev/video105             0660   media      media
-/dev/video106             0660   media      media
-/dev/video109             0660   media      media
-/dev/video110             0660   media      media
-/dev/video111             0660   media      media
-/dev/video112             0660   media      media
-/dev/video120             0660   media      media
-/dev/video121             0660   media      media
-/dev/video122             0660   media      media
-/dev/video130             0660   media      media
-/dev/video131             0660   media      media
-/dev/video132             0660   media      media
-/dev/video140             0660   media      media
-/dev/video141             0660   media      media
-/dev/video142             0660   media      media
-/dev/video150             0660   media      media
-/dev/video151             0660   media      media
-/dev/video152             0660   media      media
-/dev/video160             0660   media      media
-/dev/video161             0660   media      media
-/dev/video170             0660   media      media
-/dev/video171             0660   media      media
-/dev/video172             0660   media      media
-/dev/video173             0660   media      media
-/dev/video174             0660   media      media
-/dev/video180             0660   media      media
-/dev/video210             0660   media      media
-/dev/video211             0660   media      media
-/dev/video212             0660   media      media
-/dev/video213             0660   media      media
-/dev/video214             0660   media      media
-/dev/video215             0660   media      media
-/dev/video216             0660   media      media
-/dev/video217             0660   media      media
-/dev/video218             0660   media      media
-/dev/video219             0660   media      media
-/dev/video220             0660   media      media
-/dev/video221             0660   media      media
-/dev/video222             0660   media      media
-/dev/video223             0660   media      media
-/dev/video224             0660   media      media
-/dev/video225             0660   media      media
-/dev/video227             0660   media      media
-/dev/video231             0660   media      media
-/dev/media2               0660   media      media
+/dev/video*               0660   system     camera
+/dev/media*               0660   system     camera
 
 # jpeg
 /dev/m2m1shot_jpeg	  0660   media      media
-/dev/video12              0660   media      media
 
 # audio
 /dev/seiren               0660   system     audio

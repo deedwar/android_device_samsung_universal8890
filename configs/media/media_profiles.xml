@@ -22,7 +22,7 @@
                          AudioDecoderCap)>
 <!ELEMENT CamcorderProfiles (EncoderProfile+, ImageEncoding+, ImageDecoding, Camera)>
 <!ELEMENT EncoderProfile (Video, Audio)>
-<!ATTLIST EncoderProfile quality (low|high|qcif|qvga|480p|720p|1080p|timelapselow|timelapsehigh|timelapseqcif|timelapseqvga|timelapse480p|timelapse720p|timelapse1080p) #REQUIRED>
+<!ATTLIST EncoderProfile quality (low|high|qcif|qvga|720p|1080p|timelapselow|timelapsehigh|timelapseqcif|timelapseqvga|timelapse720p|timelapse1080p) #REQUIRED>
 <!ATTLIST EncoderProfile fileFormat (mp4|3gp) #REQUIRED>
 <!ATTLIST EncoderProfile duration (30|60) #REQUIRED>
 <!ATTLIST EncoderProfile cameraId (0|1) #REQUIRED>
@@ -33,16 +33,15 @@
 <!ATTLIST Video height CDATA #REQUIRED>
 <!ATTLIST Video frameRate CDATA #REQUIRED>
 <!ELEMENT Audio EMPTY>
-<!ATTLIST Audio codec (amrnb|amrwb|aac) #REQUIRED>
+<!ATTLIST Audio codec (amrnb|amrwb|aac|lpcm) #REQUIRED>
 <!ATTLIST Audio bitRate CDATA #REQUIRED>
 <!ATTLIST Audio sampleRate CDATA #REQUIRED>
-<!ATTLIST Audio channels (1|2) #REQUIRED>
+<!ATTLIST Audio channels (1|2|6) #REQUIRED>
 <!ELEMENT ImageEncoding EMPTY>
 <!ATTLIST ImageEncoding quality (90|80|70|60|50|40) #REQUIRED>
 <!ELEMENT ImageDecoding EMPTY>
 <!ATTLIST ImageDecoding memCap CDATA #REQUIRED>
 <!ELEMENT Camera EMPTY>
-<!ATTLIST Camera previewFrameRate CDATA #REQUIRED>
 <!ELEMENT EncoderOutputFileFormat EMPTY>
 <!ATTLIST EncoderOutputFileFormat name (mp4|3gp) #REQUIRED>
 <!ELEMENT VideoEncoderCap EMPTY>
@@ -56,15 +55,18 @@
 <!ATTLIST VideoEncoderCap maxFrameHeight CDATA #REQUIRED>
 <!ATTLIST VideoEncoderCap minFrameRate CDATA #REQUIRED>
 <!ATTLIST VideoEncoderCap maxFrameRate CDATA #REQUIRED>
+<!ATTLIST VideoEncoderCap maxHFRFrameWidth CDATA #REQUIRED>
+<!ATTLIST VideoEncoderCap maxHFRFrameHeight CDATA #REQUIRED>
+<!ATTLIST VideoEncoderCap maxHFRMode CDATA #REQUIRED>
 <!ELEMENT AudioEncoderCap EMPTY>
-<!ATTLIST AudioEncoderCap name (amrnb|amrwb|aac|wma) #REQUIRED>
+<!ATTLIST AudioEncoderCap name (amrnb|amrwb|aac|wma|lpcm) #REQUIRED>
 <!ATTLIST AudioEncoderCap enabled (true|false) #REQUIRED>
 <!ATTLIST AudioEncoderCap minBitRate CDATA #REQUIRED>
 <!ATTLIST AudioEncoderCap maxBitRate CDATA #REQUIRED>
 <!ATTLIST AudioEncoderCap minSampleRate CDATA #REQUIRED>
 <!ATTLIST AudioEncoderCap maxSampleRate CDATA #REQUIRED>
-<!ATTLIST AudioEncoderCap minChannels (1|2) #REQUIRED>
-<!ATTLIST AudioEncoderCap maxChannels (1|2) #REQUIRED>
+<!ATTLIST AudioEncoderCap minChannels (1|2|6) #REQUIRED>
+<!ATTLIST AudioEncoderCap maxChannels (1|2|6) #REQUIRED>
 <!ELEMENT VideoDecoderCap EMPTY>
 <!ATTLIST VideoDecoderCap name (wmv) #REQUIRED>
 <!ATTLIST VideoDecoderCap enabled (true|false) #REQUIRED>
@@ -261,7 +263,7 @@
             The Audio part of the profile will not be used since time lapse mode
             does not capture audio
       -->
-      <Audio codec="aac"
+            <Audio codec="aac"
              bitRate="256000"
              sampleRate="48000"
              channels="2" />
@@ -307,7 +309,6 @@
     <ImageDecoding memCap="20000000" />
 
     </CamcorderProfiles>
-
     <!-- Front Camera -->
     <CamcorderProfiles cameraId="1" startOffsetMs="700">
 
@@ -481,7 +482,7 @@
             The Audio part of the profile will not be used since time lapse mode
             does not capture audio
       -->
-      <Audio codec="aac"
+            <Audio codec="aac"
              bitRate="256000"
              sampleRate="48000"
              channels="2" />
@@ -536,28 +537,29 @@
          In other words, the applications won't be able to use the codec
          or query the capabilities of the codec at all if it is disabled
     -->
-
-    <!--
-         FIXME : we only check Mpeg4 encorder cap and other codec doesn't check
-                 codec cap
-    -->
     <VideoEncoderCap name="h264" enabled="true"
         minBitRate="64000" maxBitRate="50000000"
         minFrameWidth="176" maxFrameWidth="3840"
         minFrameHeight="144" maxFrameHeight="2160"
-        minFrameRate="1" maxFrameRate="30" />
+        minFrameRate="1" maxFrameRate="30"
+        maxHFRFrameWidth="1920" maxHFRFrameHeight="1080"
+        maxHFRMode="120" />
 
     <VideoEncoderCap name="h263" enabled="true"
         minBitRate="64000" maxBitRate="1000000"
         minFrameWidth="176" maxFrameWidth="800"
         minFrameHeight="144" maxFrameHeight="480"
-        minFrameRate="1" maxFrameRate="30" />
+        minFrameRate="1" maxFrameRate="30"
+        maxHFRFrameWidth="0" maxHFRFrameHeight="0"
+        maxHFRMode="0" />
 
     <VideoEncoderCap name="m4v" enabled="true"
         minBitRate="64000" maxBitRate="20000000"
         minFrameWidth="176" maxFrameWidth="1920"
         minFrameHeight="144" maxFrameHeight="1080"
-        minFrameRate="1" maxFrameRate="30" />
+        minFrameRate="1" maxFrameRate="30"
+        maxHFRFrameWidth="0" maxHFRFrameHeight="0"
+        maxHFRMode="0" />
 
     <AudioEncoderCap name="aac" enabled="true"
         minBitRate="8192" maxBitRate="256000"
@@ -584,6 +586,11 @@
         minSampleRate="8000" maxSampleRate="8000"
         minChannels="1" maxChannels="1" />
 
+    <AudioEncoderCap name="lpcm" enabled="true"
+        minBitRate="768000" maxBitRate="4608000"
+        minSampleRate="48000" maxSampleRate="48000"
+        minChannels="1" maxChannels="6" />
+
     <!--
         FIXME:
         We do not check decoder capabilities at present
@@ -591,8 +598,8 @@
         for TEST applications. For other applications, we do
         not perform any checks at all.
     -->
-    <VideoDecoderCap name="wmv" enabled="false"/>
-    <AudioDecoderCap name="wma" enabled="false"/>
+    <VideoDecoderCap name="wmv" enabled="true"/>
+    <AudioDecoderCap name="wma" enabled="true"/>
 
     <!--
         The VideoEditor Capability configuration:
@@ -607,7 +614,7 @@
     -->
     <VideoEditorCap  maxInputFrameWidth="1920"
         maxInputFrameHeight="1088" maxOutputFrameWidth="1920"
-        maxOutputFrameHeight="1080" maxPrefetchYUVFrames="10"/>
+        maxOutputFrameHeight="1088" maxPrefetchYUVFrames="10"/>
     <!--
         The VideoEditor Export codec profile and level values
         correspond to the values in OMX_Video.h.
@@ -617,13 +624,13 @@
         These values are for video encoder.
     -->
     <!--
-      Codec = h.264, Baseline profile, level 4.2
+      Codec = h.264, Baseline profile, level 4.0
     -->
-    <ExportVideoProfile name="h264" profile= "1" level="8192"/>
+    <ExportVideoProfile name="h264" profile= "1" level="2048"/>
     <!--
-      Codec = h.263, Baseline profile, level 45
+      Codec = h.263, Baseline profile, level 70
     -->
-    <ExportVideoProfile name="h263" profile= "1" level="16"/>
+    <ExportVideoProfile name="h263" profile= "1" level="128"/>
     <!--
       Codec = mpeg4, Simple profile, level 5
     -->
